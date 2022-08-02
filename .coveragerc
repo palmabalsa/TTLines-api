@@ -1,0 +1,7 @@
+[run]
+source=tight_lines/,conditions/,trout/,troutApi/,users/,
+omit=
+    venv
+    */migrations/*
+    */tests/*
+    */__init__.py

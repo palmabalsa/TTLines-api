@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CatchData
+from .models import FishingLogEntry
 
 # Register your models here.
 
-admin.site.register(CatchData)
+admin.site.register(FishingLogEntry)

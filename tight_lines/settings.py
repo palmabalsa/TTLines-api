@@ -169,7 +169,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # SOCIAL_AUTH_AUTH0_SCOPE = ['openid', 'profile', 'email']
 
 AUTHENTICATION_BACKENDS = {
-    'social_core.backends.auth0.Auth0OAuth2',
+    # 'social_core.backends.auth0.Auth0OAuth2',
     'django.contrib.auth.backends.ModelBackend',
 }
 
@@ -184,11 +184,13 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES' : (
+        'users.backends.JWTAuthentication',
         'users.backends.FirebaseBackend',
         "rest_framework.authentication.SessionAuthentication",
+        
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
      

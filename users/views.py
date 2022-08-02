@@ -1,19 +1,16 @@
-
+from django.contrib.auth import authenticate
 from typing import Dict, Tuple
 from django.db import IntegrityError
-from django.shortcuts import render
-from rest_framework import status
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.exceptions import APIException
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from users.models import User
 from firebase_admin import auth
-from .serializers import RegisterUserSerializer, FireBaseAuthSerializer
+from users.serializers import RegisterUserSerializer, FireBaseAuthSerializer, LoginUserSerializer
 
 
 # Create your views here.
@@ -80,7 +77,7 @@ def public(request: Request) -> Response:
     return Response({"message": "Hello, User X"})
     
 @api_view()
-@permission_classes([IsAuthenticated])
+@permission_classes([permissions.IsAuthenticated])
 def protected(request: Request) -> Response:
     return Response({"message": f"Hello, {request.user}"})     
 
@@ -88,18 +85,49 @@ def protected(request: Request) -> Response:
 
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = RegisterUserSerializer
-    lookup_field = 'username'
+# class UserViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = RegisterUserSerializer
+#     lookup_field = 'username'
     
-class UserRegistration(APIView):
-    permission_classes = [AllowAny]
+    
+class UserRegistration(GenericAPIView):
+    authentication_classes = []
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = RegisterUserSerializer
     
     def post(self, request):
-        reg_serializer = RegisterUserSerializer(data=request.data)
-        if reg_serializer.is_valid():
-            user = reg_serializer.save()
-            if user:
-                return Response(status.HTTP_201_CREATED)
-        return Response(reg_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = self.serializer_class(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED) 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+       
+class LoginUser(GenericAPIView):
+    authentication_classes = []
+    permission_classes=(permissions.AllowAny,)
+    serializer_class = LoginUserSerializer
+    
+    def post(self, request):
+        email= request.data.get('email', None)
+        password= request.data.get('password', None)
+        
+        user= authenticate(username=email, password=password)
+        
+        if user:
+            serializer = self.serializer_class(user)
+            
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({'message':'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    
+    
+class AuthenticatedUser(GenericAPIView):
+    permission_classes=(permissions.IsAuthenticated,)
+    
+    def get(self, request):
+        user = request.user 
+        serializer = RegisterUserSerializer(user)
+        return Response({'user': serializer.data})
