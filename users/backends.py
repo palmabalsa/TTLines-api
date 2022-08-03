@@ -4,7 +4,6 @@ from rest_framework.request import Request
 from rest_framework import exceptions
 from firebase_admin import auth
 
-
 from rest_framework.authentication import get_authorization_header
 import jwt
 from django.conf import settings
@@ -64,7 +63,7 @@ class FirebaseBackend (BaseAuthentication):
             
         try:
             user = User.objects.get(username=uid)
-            return user
+            return (user, None)
         except:
             return None
 

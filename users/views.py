@@ -46,7 +46,7 @@ class FireBaseAuthAPI(GenericAPIView):
             try:
                 user = User.objects.get(firebase_user_id=firebase_user_id)
                 content = {
-                    # "username" :user.username,
+                    "username" :user.email,
                     "email" : user.email,
                     "firebase_user_id" : user.firebase_user_id
                 }
@@ -81,15 +81,7 @@ def public(request: Request) -> Response:
 def protected(request: Request) -> Response:
     return Response({"message": f"Hello, {request.user}"})     
 
-
-
-
-
-# class UserViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = RegisterUserSerializer
-#     lookup_field = 'username'
-    
+ 
     
 class UserRegistration(GenericAPIView):
     authentication_classes = []
