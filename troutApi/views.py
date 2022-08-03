@@ -9,11 +9,6 @@ class TrialEndPointFishList(generics.ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = NewFishSerializer
     queryset = FishingLogEntry.objects.all()
-    
-    # def get_queryset(self):
-        # return FishingLogEntry.objects.filter(user=self.request.user)
-
-
 
 class FishList(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
