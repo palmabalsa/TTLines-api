@@ -1,6 +1,7 @@
+from logging import raiseExceptions
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.request import Request
-from rest_framework import exceptions
+from rest_framework import exceptions, status
 from firebase_admin import auth
 from users.models import User
 
@@ -12,17 +13,70 @@ class FirebaseBackend (BaseAuthentication):
         if not auth_token:
             return None
 
+        id_token = auth_token.split(" ").pop()
+        decoded_token = None
+        
         try:
-            decoded_token = auth.verify_id_token(auth_token)
-            uid = decoded_token["uid"]
-        except:
+            decoded_token = auth.verify_id_token(id_token)
+        except Exception:
             return None
+        
+        if not id_token or not decoded_token:
+            return None
+        
+        try:
+            uid = decoded_token("uid")
+        except Exception:
+            return None
+        
+        user, created = User.objects.get_or_create(firebase_user_id=uid)
+        
+        return (user, None)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class FirebaseBackend (BaseAuthentication):
+#     def authenticate(self, request):
+        
+#         auth_token = request.headers.get('Authorization')
+#         if not auth_token:
+#             return None
+
+#         try:
+#             decoded_token = auth.verify_id_token(auth_token)
+#             uid = decoded_token["uid"]
+#         except:
+#             return None
             
-        try:
-            user = User.objects.get(username=uid)
-            return (user, None)
-        except:
-            return None
+#         try:
+#             user = User.objects.get(username=uid)
+#             return (user, None)
+#         except:
+#             return None
 
 
 # class FirebaseBackend (BaseAuthentication):
