@@ -20,6 +20,7 @@ class LoginUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=50, min_length=7, write_only=True)
     class Meta:
         model = User
-        fields = ('email', 'password', 'token')
+        fields = ('email', 'password')
+        # fields = ('email', 'password', 'token')
         
-        read_only_fields = ['token']  
+        # read_only_fields = ['token']  
