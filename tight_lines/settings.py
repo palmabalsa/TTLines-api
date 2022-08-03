@@ -196,30 +196,27 @@ REST_FRAMEWORK = {
      
 }
 
-#  port 3000, this is the react server, allowing requests from this origin only
-#
-# 
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:3000",
-#     "http://127.0.0.1",
-#     "http://localhost",
-#     "http://localhost:55555",
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1",
+    "http://localhost",
+    "http://localhost:55555",
+    "https://tight-lines-app.herokuapp.com",
+]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
 
-# CORS_ALLOW_HEADERS = [
-#     "accept",
-#     "accept-encoding",
-#     "authorization",
-#     "content-type",
-#     "dnt",
-#     "origin",
-#     "user-agent",
-#     "x-csrftoken",
-#     "x-requested-with",
-# ]
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
 
 
 ALLOWED_HOSTS = ['*']
