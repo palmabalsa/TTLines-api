@@ -37,16 +37,6 @@ class JWTAuthentication(BaseAuthentication):
         except User.DoesNotExist as no_user:
             raise exceptions.AuthenticationFailed("No such user exists")
             
-        
-        return super().authenticate(request)
-    
-    
-    
-    
-    
-    
-    
-
 
 class FirebaseBackend (BaseAuthentication):
     def authenticate(self, request):
@@ -66,15 +56,6 @@ class FirebaseBackend (BaseAuthentication):
             return (user, None)
         except:
             return None
-
-
-
-
-
-
-
-
-
 
 
 # class FirebaseBackend (BaseAuthentication):

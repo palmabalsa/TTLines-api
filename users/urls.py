@@ -15,7 +15,7 @@ urlpatterns = [
     path('register/', UserRegistration.as_view(), name="registration"),
     path('loggedin/', AuthenticatedUser.as_view(), name="authenticated"),
     
-    path('auth/', FireBaseAuthAPI.as_view(), name='firebase/auth'),
-    path('protected/', protected, name='protected'),
-    path('public/', public, name='public'),
+    # path('auth/', FireBaseAuthAPI.as_view(), name='firebase/auth'),
+    # path('protected/', protected, name='protected'),
+    # path('public/', public, name='public'),
 ]
