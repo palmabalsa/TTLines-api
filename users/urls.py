@@ -1,5 +1,5 @@
 from django.urls import path
-from users.views import UserRegistration, FireBaseAuthAPI, protected, public, LoginUser, AuthenticatedUser
+from users.views import UserRegistration, LoginUser, AuthenticatedUser
 from django.views.generic import TemplateView
 from rest_framework import routers
 

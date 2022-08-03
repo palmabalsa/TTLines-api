@@ -19,9 +19,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('trout.urls', namespace = 'trout')),
-    path('', include('social_django.urls')),
     path('api/', include('troutApi.urls', namespace= 'troutApi')),
     path('api-auth/', include('rest_framework.urls',namespace ='rest_framwork')),
     path('api/users/', include('users.urls', namespace='users')),
-    # path('conditions/', include('conditions.urls', namespace = 'conditions')),
+    path('api/fbauth/', include('firebase_auth.urls', namespace='firebase_auth')),
 ]

@@ -6,8 +6,6 @@ name = "pypi"
 [packages]
 django = "==4.0.3"
 psycopg2-binary = "*"
-python-jose = "*"
-social-auth-app-django = "*"
 djangorestframework = "*"
 coverage = "*"
 django-cors-headers = "*"

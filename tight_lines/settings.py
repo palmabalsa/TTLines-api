@@ -47,13 +47,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'troutApi',
-    'social_django',
     'trout',
-    'conditions',
     'rest_framework',
     'corsheaders',
     'users',
-    'django_extensions'
+    'django_extensions',
+    'firebase_auth',
 ]
 
 MIDDLEWARE = [
@@ -161,21 +160,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# AUTH0 SETTINGS:
-# SOCIAL_AUTH_TRAILING_SLASH = False
-# SOCIAL_AUTH_AUTH0_DOMAIN = 'dev-lmvb9vwu.au.auth0.com'
-# SOCIAL_AUTH_AUTH0_KEY = 'HLp019HZlWzxPxstrMspRhoRhjJSwI5C'
-# SOCIAL_AUTH_AUTH0_SECRET = 'UyEzrtyGVWo499BunNf3kemhQcrrv_ldlwg52U-75aQsWQAp3Nj-LC5bbXZQ2_wn'
-# SOCIAL_AUTH_AUTH0_SCOPE = ['openid', 'profile', 'email']
 
 AUTHENTICATION_BACKENDS = {
-    # 'social_core.backends.auth0.Auth0OAuth2',
     'django.contrib.auth.backends.ModelBackend',
 }
-
-LOGIN_URL ='/login/'
-LOGIN_REDIRECT_URL = '/catchdata'
-LOGOUT_REDIRECT_URL = '/'
 
 
 REST_FRAMEWORK = {
@@ -187,7 +175,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES' : (
-        'users.backends.FirebaseBackend',
+        'firebase_auth.authentication.FirebaseBackend',
         'users.backends.JWTAuthentication',
         "rest_framework.authentication.SessionAuthentication",
         
