@@ -177,7 +177,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES' : (
         'firebase_auth.authentication.FirebaseBackend',
         # 'users.backends.JWTAuthentication',
-        # "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
         
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
@@ -227,7 +227,7 @@ cred = credentials.Certificate(
 )
 
 # FIREBASE_APP = firebase_admin.initialize_app(cred)
-firebase_admin.initialize_app(cred)
+default_app = firebase_admin.initialize_app(cred)
 
 django_heroku.settings(locals())
 
