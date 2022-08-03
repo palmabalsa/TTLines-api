@@ -34,6 +34,8 @@ class EditOrDeleteLogEntry(generics.RetrieveUpdateDestroyAPIView):
     
     def get_queryset(self):
         return FishingLogEntry.objects.filter(user=self.request.user)
+    
+    
 
     # updates catch using PUT http method, change it to patch
     

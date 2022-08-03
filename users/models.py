@@ -61,13 +61,13 @@ class User(AbstractUser, PermissionsMixin):
     #     verbose_name = "profile"
     #     verbose_name_plural= "profiles"
         
-    @property
-    def token(self):
-        token=jwt.encode(
-            {'username': self.username, 'email': self.email, 
-             'exp': datetime.now() + timedelta(hours=24)}, 
-            settings.SECRET_KEY, algorithm='HS256')
-        return token
+    # @property
+    # def token(self):
+    #     token=jwt.encode(
+    #         {'username': self.username, 'email': self.email, 
+    #          'exp': datetime.now() + timedelta(hours=24)}, 
+    #         settings.SECRET_KEY, algorithm='HS256')
+    #     return token
     
     def __str__(self: "User") -> str:
         return f"{self.email}"
