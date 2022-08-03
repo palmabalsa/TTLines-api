@@ -1,7 +1,19 @@
 from rest_framework import generics
 from trout.models import FishingLogEntry
 from troutApi.serializers import CatchDataSerializer, NewFishSerializer, SuperBasicSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
+
+
+# test endpoint displaying all data without loggin in
+class TrialEndPointFishList(generics.ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = NewFishSerializer
+    queryset = FishingLogEntry.objects.all()
+    
+    # def get_queryset(self):
+        # return FishingLogEntry.objects.filter(user=self.request.user)
+
+
 
 class FishList(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
