@@ -186,7 +186,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "https://tight-lines-app.herokuapp.com",
+    "https://tight-lines-app.herokuapp.com/",
     "http://127.0.0.1",
     "http://localhost",
     "http://localhost:55555",
