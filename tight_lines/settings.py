@@ -18,6 +18,7 @@ from firebase_admin import credentials
 import os
 from decouple import config
 import django_heroku
+from corsheaders.defaults import default_methods, default_headers
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -57,9 +58,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -185,27 +186,15 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
+    "https://tight-lines-app.herokuapp.com",
     "http://127.0.0.1",
     "http://localhost",
     "http://localhost:55555",
-    "https://tight-lines-app.herokuapp.com",
 ]
-
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_ALLOW_ALL = True
-
-
-CORS_ALLOW_HEADERS = [
-    "accept",
-    "accept-encoding",
-    "authorization",
-    "content-type",
-    "dnt",
-    "origin",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
-]
-
+CORS_ALLOW_METHODS = list(default_methods)
+CORS_ALLOW_HEADERS = list(default_headers)
 
 ALLOWED_HOSTS = ['*']
 # '0.0.0.0', '192.168.20.102', 'localhost', '127.0.0.1',
