@@ -7,7 +7,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 # test endpoint displaying all data without loggin in
 class TrialEndPointFishList(generics.ListAPIView):
     authentication_classes = []
-    permission_classes = (AllowAny,)
+    permission_classes = []
+    # permission_classes = (AllowAny,)
     serializer_class = NewFishSerializer
     queryset = FishingLogEntry.objects.all()
 
