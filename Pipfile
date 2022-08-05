@@ -20,6 +20,7 @@ gunicorn = "*"
 whitenoise = "*"
 pyjwt = "*"
 dj-database-url = "*"
+psycopg2 = "*"
 
 [dev-packages]
 

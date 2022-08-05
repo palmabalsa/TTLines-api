@@ -222,7 +222,6 @@ cred = credentials.Certificate(
 # FIREBASE_APP = firebase_admin.initialize_app(cred)
 default_app = firebase_admin.initialize_app(cred)
 
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 django_heroku.settings(locals())
 
