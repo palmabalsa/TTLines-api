@@ -20,6 +20,7 @@ class FishList(generics.ListAPIView):
         return FishingLogEntry.objects.filter(user=self.request.user)
 
 class CreateLogEntry(generics.CreateAPIView):
+    authentication_classes = []
     permission_classes = (IsAuthenticated,)
     queryset = FishingLogEntry.objects.all()
     serializer_class = NewFishSerializer
