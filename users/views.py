@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from users.models import User
 from firebase_admin import auth
-from users.serializers import RegisterUserSerializer, LoginUserSerializer
+# from users.serializers import RegisterUserSerializer, LoginUserSerializer
 
 
 # Create your views here.
@@ -98,46 +98,46 @@ from users.serializers import RegisterUserSerializer, LoginUserSerializer
  
     
     
-class UserRegistration(GenericAPIView):
-    authentication_classes = []
-    permission_classes = []
-    # permission_classes = (permissions.AllowAny,)
-    serializer_class = RegisterUserSerializer
+# class UserRegistration(GenericAPIView):
+#     authentication_classes = []
+#     permission_classes = []
+#     # permission_classes = (permissions.AllowAny,)
+#     serializer_class = RegisterUserSerializer
     
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
+#     def post(self, request):
+#         serializer = self.serializer_class(data=request.data)
         
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED) 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED) 
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
        
-class LoginUser(GenericAPIView):
-    authentication_classes = []
-    permission_classes = []
-    # permission_classes=(permissions.AllowAny,)
-    serializer_class = LoginUserSerializer
+# class LoginUser(GenericAPIView):
+#     authentication_classes = []
+#     permission_classes = []
+#     # permission_classes=(permissions.AllowAny,)
+#     serializer_class = LoginUserSerializer
     
-    def post(self, request):
-        email= request.data.get('email', None)
-        password= request.data.get('password', None)
+#     def post(self, request):
+#         email= request.data.get('email', None)
+#         password= request.data.get('password', None)
         
-        user= authenticate(username=email, password=password)
+#         user= authenticate(username=email, password=password)
         
-        if user:
-            serializer = self.serializer_class(user)
+#         if user:
+#             serializer = self.serializer_class(user)
             
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({'message':'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+#         return Response({'message':'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
     
     
     
-class AuthenticatedUser(GenericAPIView):
-    # permission_classes=(permissions.IsAuthenticated,)
-    permission_classes = []
+# class AuthenticatedUser(GenericAPIView):
+#     # permission_classes=(permissions.IsAuthenticated,)
+#     permission_classes = []
     
-    def get(self, request):
-        user = request.user 
-        serializer = RegisterUserSerializer(user)
-        return Response({'user': serializer.data})
+#     def get(self, request):
+#         user = request.user 
+#         serializer = RegisterUserSerializer(user)
+#         return Response({'user': serializer.data})
