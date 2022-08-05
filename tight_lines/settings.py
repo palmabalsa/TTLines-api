@@ -16,6 +16,7 @@ from datetime import timedelta
 import firebase_admin
 from firebase_admin import credentials
 import os
+import dj_database_url
 from decouple import config
 import django_heroku
 from corsheaders.defaults import default_methods, default_headers
@@ -102,6 +103,9 @@ DATABASES = {
          'PORT' : '5432',
      }    
 }
+
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
 
 AUTH_USER_MODEL = 'users.User'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
@@ -196,8 +200,8 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_METHODS = list(default_methods)
 CORS_ALLOW_HEADERS = list(default_headers)
 
-ALLOWED_HOSTS = ['*']
-# '0.0.0.0', '192.168.20.102', 'localhost', '127.0.0.1',
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['0.0.0.0', '192.168.20.102', 'localhost', '127.0.0.1', 'tight-lines-app.herokuapp.com']
 
 
 cred = credentials.Certificate(
@@ -217,6 +221,8 @@ cred = credentials.Certificate(
 
 # FIREBASE_APP = firebase_admin.initialize_app(cred)
 default_app = firebase_admin.initialize_app(cred)
+
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 django_heroku.settings(locals())
 
