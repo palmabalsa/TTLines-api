@@ -100,7 +100,8 @@ from users.serializers import RegisterUserSerializer, LoginUserSerializer
     
 class UserRegistration(GenericAPIView):
     authentication_classes = []
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = []
+    # permission_classes = (permissions.AllowAny,)
     serializer_class = RegisterUserSerializer
     
     def post(self, request):
@@ -114,7 +115,8 @@ class UserRegistration(GenericAPIView):
        
 class LoginUser(GenericAPIView):
     authentication_classes = []
-    permission_classes=(permissions.AllowAny,)
+    permission_classes = []
+    # permission_classes=(permissions.AllowAny,)
     serializer_class = LoginUserSerializer
     
     def post(self, request):
@@ -132,7 +134,8 @@ class LoginUser(GenericAPIView):
     
     
 class AuthenticatedUser(GenericAPIView):
-    permission_classes=(permissions.IsAuthenticated,)
+    # permission_classes=(permissions.IsAuthenticated,)
+    permission_classes = []
     
     def get(self, request):
         user = request.user 

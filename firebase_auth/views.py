@@ -53,6 +53,7 @@ class FireBaseAuthRegister(GenericAPIView):
 
 class FireBaseAuthAPI(GenericAPIView):
     serializer_class = FireBaseAuthSerializer
+    permission_classes = []
     
     def post(
         self: "FireBaseAuthAPI",
