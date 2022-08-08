@@ -8,17 +8,26 @@ from rest_framework.request import Request
 from rest_framework.exceptions import APIException
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
+from rest_framework import generics
 from users.models import User
 from firebase_admin import auth
-# from users.serializers import RegisterUserSerializer, LoginUserSerializer
 from users.serializers import UserSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    lookup_field = 'username'
+    lookup_field = 'email'
 
+
+# test examples from DRF docs
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer    
 
 
 

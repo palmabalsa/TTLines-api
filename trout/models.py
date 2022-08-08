@@ -37,7 +37,9 @@ class FishingLogEntry (models.Model):
     fly_used = models.CharField(max_length=25)
     any_notes = models.CharField(max_length=100)
     # whats this ? is it necessary?
-    objects = models.Manager() #default manager
+    objects = models.Manager()#default manager
+    
+    
     
     class Meta:
           ordering = ('date',)
