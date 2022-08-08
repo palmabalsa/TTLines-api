@@ -6,22 +6,9 @@ from firebase_admin import auth
 from users.models import User
 import firebase_admin
 from firebase_admin import credentials
-from decouple import config
 
-cred = credentials.Certificate(
-    {
-        "type": "service_account",
-        "project_id": config('FIREBASE_PROJECT_ID'),
-        "private_key_id": config('FIREBASE_PRIVATE_KEY_ID'),
-        "private_key": config('FIREBASE_PRIVATE_KEY').replace('\\n','\n'),
-        "client_email": config('FIREBASE_CLIENT_EMAIL'),
-        "client_id": config('FIREBASE_CLIENT_ID'),
-        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-        "token_uri": "https://oauth2.googleapis.com/token",
-        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-        "client_x509_cert_url": config('FIREBASE_CLIENT_x509_CERT_URL'),
-    }
-)
+
+cred = credentials.Certificate('ttlines2-firebaseEnv.json')
 
 default_app = firebase_admin.initialize_app(cred)
 
@@ -51,7 +38,7 @@ class FirebaseBackend (BaseAuthentication):
     def authenticate(self, request):
         
         auth_header = request.headers.get('Authorization')
-        # auth_header = request.META.get("HTTP_AUTHORIZATION")
+        # auth_header = request.META.get('Authorization')
         if not auth_header:
             raise NoAuthToken("No auth token provided")
 
@@ -62,7 +49,6 @@ class FirebaseBackend (BaseAuthentication):
             decoded_token = auth.verify_id_token(id_token)
         except Exception:
             raise InvalidAuthToken("Invalid auth token")
-            pass
         
         if not id_token or not decoded_token:
             return None
@@ -75,7 +61,12 @@ class FirebaseBackend (BaseAuthentication):
             return FirebaseError()
         
         # user, created = User.objects.get_or_create(firebase_user_id=uid)
-        user, created = User.objects.get_or_create(firebase_user_id=uid)
+        try: 
+            user = User.objects.get(firebase_user_id=uid)
+            # user = User.objects.get_or_create(firebase_user_id=uid)
+        except User.DoesNotExist:
+            raise exceptions.AuthenticationFailed('No such user')
+        
         return (user, None)
 
 

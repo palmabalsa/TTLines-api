@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 from telnetlib import AUTHENTICATION
 from datetime import timedelta
-import firebase_admin
-from firebase_admin import credentials
 import os
 import dj_database_url
 from decouple import config
@@ -204,25 +202,6 @@ CORS_ALLOW_HEADERS = list(default_headers)
 
 # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = ['0.0.0.0', '192.168.20.102', 'localhost', '127.0.0.1', 'tight-lines-app.herokuapp.com']
-
-
-# cred = credentials.Certificate(
-#     {
-#         "type": "service_account",
-#         "project_id": config('FIREBASE_PROJECT_ID'),
-#         "private_key_id": config('FIREBASE_PRIVATE_KEY_ID'),
-#         "private_key": config('FIREBASE_PRIVATE_KEY').replace('\\n','\n'),
-#         "client_email": config('FIREBASE_CLIENT_EMAIL'),
-#         "client_id": config('FIREBASE_CLIENT_ID'),
-#         "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-#         "token_uri": "https://oauth2.googleapis.com/token",
-#         "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-#         "client_x509_cert_url": config('FIREBASE_CLIENT_x509_CERT_URL'),
-#     }
-# )
-
-# # FIREBASE_APP = firebase_admin.initialize_app(cred)
-# default_app = firebase_admin.initialize_app(cred)
 
 
 django_heroku.settings(locals())

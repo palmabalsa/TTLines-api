@@ -1,5 +1,6 @@
 # Environments
 .env
+ttlines2-firebaseEnv.json
 
 # mkdocs documentation
 /site
