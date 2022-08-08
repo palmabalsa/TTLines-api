@@ -183,7 +183,7 @@ REST_FRAMEWORK = {
         'firebase_auth.authentication.FirebaseBackend',
         # 'users.backends.JWTAuthentication',
         # "rest_framework.authentication.TokenAuthentication",
-        # "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
         
         
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',

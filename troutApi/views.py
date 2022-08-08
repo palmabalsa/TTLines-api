@@ -1,4 +1,5 @@
 from rest_framework import generics
+from firebase_auth.authentication import FirebaseBackend
 from trout.models import FishingLogEntry
 from troutApi.serializers import CatchDataSerializer, NewFishSerializer, SuperBasicSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -7,24 +8,22 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 # test endpoint displaying all data without loggin in
 class TrialEndPointFishList(generics.ListAPIView):
     authentication_classes = []
-    permission_classes = []
-    # permission_classes = (AllowAny,)
+    # permission_classes = []
+    permission_classes = (AllowAny,)
     serializer_class = NewFishSerializer
     queryset = FishingLogEntry.objects.all()
 
 class FishList(generics.ListAPIView):
-    authentication_classes = []
-    permission_classes = []
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = [FirebaseBackend,]
+    permission_classes = [IsAuthenticated,]
     serializer_class = NewFishSerializer
     
     def get_queryset(self):
         return FishingLogEntry.objects.filter(user=self.request.user)
 
 class CreateLogEntry(generics.CreateAPIView):
-    authentication_classes = []
-    permission_classes = []
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = [FirebaseBackend]
+    permission_classes = [IsAuthenticated,]
     queryset = FishingLogEntry.objects.all()
     serializer_class = NewFishSerializer
     
