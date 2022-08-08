@@ -3,9 +3,6 @@ from firebase_auth.views import FireBaseAuthRegister, FireBaseAuthAPI, protected
 
 app_name = 'firebase_auth' 
 
-  
-   
-   
 urlpatterns = [
     path('auth/', FireBaseAuthRegister.as_view(), name='firebase/auth'),
     path('signup/', FireBaseAuthAPI.as_view(), name='firebase/auth'),
@@ -13,3 +10,4 @@ urlpatterns = [
     path('public/', public, name='public'),
 ]
 
+# 

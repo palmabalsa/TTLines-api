@@ -4,41 +4,79 @@ from rest_framework.request import Request
 from rest_framework import exceptions, status
 from firebase_admin import auth
 from users.models import User
+import firebase_admin
+from firebase_admin import credentials
+from decouple import config
+
+cred = credentials.Certificate(
+    {
+        "type": "service_account",
+        "project_id": config('FIREBASE_PROJECT_ID'),
+        "private_key_id": config('FIREBASE_PRIVATE_KEY_ID'),
+        "private_key": config('FIREBASE_PRIVATE_KEY').replace('\\n','\n'),
+        "client_email": config('FIREBASE_CLIENT_EMAIL'),
+        "client_id": config('FIREBASE_CLIENT_ID'),
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_x509_cert_url": config('FIREBASE_CLIENT_x509_CERT_URL'),
+    }
+)
+
+default_app = firebase_admin.initialize_app(cred)
 
 
+class NoAuthToken(exceptions.APIException):
+    status_code = status.HTTP_401_UNAUTHORIZED
+    default_detail = "No authentication token provided"
+    default_code = "no_auth_token"
+
+
+class InvalidAuthToken(exceptions.APIException):
+    status_code = status.HTTP_401_UNAUTHORIZED
+    default_detail = "Invalid authentication token provided"
+    default_code = "invalid_token"
+
+
+class FirebaseError(exceptions.APIException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    default_detail = "The user provided with the auth token is not a valid Firebase user, it has no Firebase UID"
+    default_code = "no_firebase_uid"
+
+
+
+# should validate the credential and return a tuple(user, auth)
+# if the credential is validated. otherwise return none
 class FirebaseBackend (BaseAuthentication):
     def authenticate(self, request):
         
-        auth_token = request.headers.get('Authorization')
-        if not auth_token:
-            return None
+        auth_header = request.headers.get('Authorization')
+        # auth_header = request.META.get("HTTP_AUTHORIZATION")
+        if not auth_header:
+            raise NoAuthToken("No auth token provided")
 
-        id_token = auth_token.split(" ").pop()
+        id_token = auth_header.split(" ").pop()
         decoded_token = None
         
         try:
             decoded_token = auth.verify_id_token(id_token)
         except Exception:
-            return None
+            raise InvalidAuthToken("Invalid auth token")
+            pass
         
         if not id_token or not decoded_token:
             return None
         
         try:
+            # get unique user ID
             uid = decoded_token("uid")
+            # uid = decoded_token.get("uid")
         except Exception:
-            return None
+            return FirebaseError()
         
+        # user, created = User.objects.get_or_create(firebase_user_id=uid)
         user, created = User.objects.get_or_create(firebase_user_id=uid)
-        
         return (user, None)
-
-
-
-
-
-
-
 
 
 

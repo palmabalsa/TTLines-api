@@ -11,6 +11,18 @@ from rest_framework.generics import GenericAPIView
 from users.models import User
 from firebase_admin import auth
 # from users.serializers import RegisterUserSerializer, LoginUserSerializer
+from users.serializers import UserSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'username'
+
+
+
+
+
 
 
 # Create your views here.
