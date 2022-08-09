@@ -3,7 +3,8 @@ from firebase_auth.authentication import FirebaseBackend
 from trout.models import FishingLogEntry
 from troutApi.serializers import CatchDataSerializer, NewFishSerializer, SuperBasicSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-
+# from firebase_admin import auth
+# from django.contrib.auth import get_user_model
 
 # test endpoint displaying all data without loggin in
 class TrialEndPointFishList(generics.ListAPIView):

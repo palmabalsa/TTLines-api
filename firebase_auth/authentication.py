@@ -1,4 +1,5 @@
 from logging import raiseExceptions
+from multiprocessing import AuthenticationError
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.request import Request
 from rest_framework import exceptions, status
@@ -6,13 +7,13 @@ from firebase_admin import auth
 from users.models import User
 import firebase_admin
 from firebase_admin import credentials
+from django.contrib.auth import get_user_model
 
 
-# 'C:\Users\chess\dev\fishing_app\
 GOOGLE_APPLICATION_CREDENTIALS = 'tight_lines\ttlines2-firebaseEnv.json'
-# cred = credentials.Certificate('ttlines2-firebaseEnv.json')
-
 default_app = firebase_admin.initialize_app()
+
+User = get_user_model()
 
 
 class NoAuthToken(exceptions.APIException):
@@ -36,40 +37,129 @@ class FirebaseError(exceptions.APIException):
 
 # should validate the credential and return a tuple(user, auth)
 # if the credential is validated. otherwise return none
-class FirebaseBackend (BaseAuthentication):
-    def authenticate(self, request):
-        
-        auth_header = request.headers.get('Authorization')
-        # auth_header = request.META.get('Authorization')
-        if not auth_header:
-            raise NoAuthToken("No auth token provided")
 
-        id_token = auth_header.split(" ").pop()
-        decoded_token = None
-        
+
+
+class FirebaseBackend(BaseAuthentication):
+    def authenticate(self, request):
+        auth_header = request.META.get('HTTP_AUTHORIZATION')
+
+        if not auth_header:
+             raise NoAuthToken("No auth token provided")
+
+        token = auth_header.split(' ').pop()
         try:
-            decoded_token = auth.verify_id_token(id_token)
+            decoded_token = auth.verify_id_token(token)
         except Exception:
             raise InvalidAuthToken("Invalid auth token")
-        
-        if not id_token or not decoded_token:
-            return None
-        
+
         try:
-            # get unique user ID
-            uid = decoded_token("uid")
-            # uid = decoded_token.get("uid")
+            uid = decoded_token.get('uid')
         except Exception:
-            return FirebaseError()
-        
-        # user, created = User.objects.get_or_create(firebase_user_id=uid)
-        try: 
-            user = User.objects.get(firebase_user_id=uid)
-            # user = User.objects.get_or_create(firebase_user_id=uid)
-        except User.DoesNotExist:
-            raise exceptions.AuthenticationFailed('No such user')
-        
+             return FirebaseError()
+
+        # get user model
+        User = get_user_model()
+        try:
+            user, created = User.objects.get_or_create(username=uid)
+            pass
+        except Exception as e:
+            print('this is problem', e)
+            return None
         return (user, None)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class FirebaseBackend (BaseAuthentication):
+#     def authenticate(self, request):
+        
+#         auth_header = request.headers.get('Authorization')
+#         # auth_header = request.META.get('Authorization')
+#         user = auth.get_user(uid)
+#         print('Successfully fetched user data: {0}'.format(user.uid))
+        
+#         if not auth_header:
+#             raise NoAuthToken("No auth token provided")
+
+#         id_token = auth_header.split(" ").pop()
+#         decoded_token = None
+        
+#         try:
+#             decoded_token = auth.verify_id_token(id_token)
+#         except Exception:
+#             raise InvalidAuthToken("Invalid auth token")
+        
+#         if not id_token or not decoded_token:
+#             return None
+        
+#         try:
+#             # get unique user ID
+#             uid = decoded_token("uid")
+#             # uid = decoded_token.get("uid")
+#         except Exception:
+#             return FirebaseError()
+        
+#         # user, created = User.objects.get_or_create(firebase_user_id=uid)
+#         try: 
+#             user = User.objects.get(firebase_user_id=uid)
+#             # user = User.objects.get_or_create(firebase_user_id=uid)
+#         except User.DoesNotExist:
+#             raise exceptions.AuthenticationFailed('No such user')
+        
+#         return (user, None)
 
 
 
