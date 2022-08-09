@@ -8,9 +8,11 @@ import firebase_admin
 from firebase_admin import credentials
 
 
-cred = credentials.Certificate('ttlines2-firebaseEnv.json')
+# 'C:\Users\chess\dev\fishing_app\
+GOOGLE_APPLICATION_CREDENTIALS = 'tight_lines\ttlines2-firebaseEnv.json'
+# cred = credentials.Certificate('ttlines2-firebaseEnv.json')
 
-default_app = firebase_admin.initialize_app(cred)
+default_app = firebase_admin.initialize_app()
 
 
 class NoAuthToken(exceptions.APIException):
