@@ -21,9 +21,12 @@ from corsheaders.defaults import default_methods, default_headers
 import firebase_admin
 from firebase_admin import credentials
 
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ttlines2-firebaseEnv.json"
-cred = credentials.Certificate("ttlines2-firebaseEnv.json")
-default_app = firebase_admin.initialize_app(cred)
+
+# $env:GOOGLE_APPLICATION_CREDENTIALS="C:\Users\chess\dev\fishing_app\tight_lines\ttlines2-firebaseEnv.json" 
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ttlines2-firebaseEnv.json"
+# cred = credentials.Certificate("ttlines2-firebaseEnv.json")
+default_app = firebase_admin.initialize_app()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
