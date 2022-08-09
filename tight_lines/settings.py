@@ -21,7 +21,7 @@ from corsheaders.defaults import default_methods, default_headers
 import firebase_admin
 from firebase_admin import credentials
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ttlines2-firebaseEnv.json"
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ttlines2-firebaseEnv.json"
 cred = credentials.Certificate("ttlines2-firebaseEnv.json")
 default_app = firebase_admin.initialize_app(cred)
 
