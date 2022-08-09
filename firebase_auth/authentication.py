@@ -5,13 +5,8 @@ from rest_framework.request import Request
 from rest_framework import exceptions, status
 from firebase_admin import auth
 from users.models import User
-import firebase_admin
-from firebase_admin import credentials
 from django.contrib.auth import get_user_model
 
-
-GOOGLE_APPLICATION_CREDENTIALS = 'tight_lines\ttlines2-firebaseEnv.json'
-default_app = firebase_admin.initialize_app()
 
 User = get_user_model()
 
