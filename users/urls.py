@@ -10,9 +10,9 @@ app_name = 'users'
 # router.register(r'users', UserViewSet)
 
 urlpatterns = [
-    path('verified', AuthenticatedView.as_view()),
-    path('register', RegisterUser.as_view()),
-    path('hello', HelloView.as_view()),
+    path('verified/', AuthenticatedView.as_view()),
+    path('register/', RegisterUser.as_view()),
+    path('hello/', HelloView.as_view()),
     
     
     
