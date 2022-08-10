@@ -21,7 +21,7 @@ class FishingLogEntry (models.Model):
         ('Tauranga Taupo', 'Tauranga Taupo'),
         ('Lake O', 'Lake O'),
     )
-
+        #  to_field='firebase_user_id'
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True )
     date = models.DateTimeField(default=timezone.now)
     river = models.CharField(choices = riverName, max_length=14, default=None, blank=True, null=True,)

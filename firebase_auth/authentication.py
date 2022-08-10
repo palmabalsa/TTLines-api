@@ -57,7 +57,7 @@ class FirebaseBackend(BaseAuthentication):
         # get user model
         User = get_user_model()
         try:
-            user, created = User.objects.get_or_create(firebase_user_id=uid)
+            user, created = User.objects.get_or_create(username=uid)
             pass
         except Exception as e:
             print('this is problem', e)

@@ -115,7 +115,7 @@ DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True
 
 
 AUTH_USER_MODEL = 'users.User'
-ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'firebase_user_id'
 # ACCOUNT_FORMS = {'signup': 'users.forms.CustomUserCreationForm'}
 
 
@@ -173,9 +173,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-AUTHENTICATION_BACKENDS = {
-    'django.contrib.auth.backends.ModelBackend',
-}
+# AUTHENTICATION_BACKENDS = {
+#     'django.contrib.auth.backends.ModelBackend',
+# }
 
 
 REST_FRAMEWORK = {
