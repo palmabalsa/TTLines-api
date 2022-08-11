@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from datetime import datetime, timedelta
-from django.contrib.auth.models import AbstractUser, PermissionsMixin, UserManager
+from django.contrib.auth.models import AbstractUser, PermissionsMixin
 import jwt
 from django.conf import settings
 # Create your models here.
@@ -50,6 +50,7 @@ class User(AbstractUser, PermissionsMixin):
     
     # def __str__(self):
         # return self.firebase_user_id
+    objects = models.Manager()
     
     
     def __str__(self: "User") -> str:

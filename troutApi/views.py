@@ -14,7 +14,9 @@ class TrialEndPointFishList(generics.ListAPIView):
     # permission_classes = []
     permission_classes = ()
     serializer_class = NewFishSerializer
+    print (serializer_class.data)
     queryset = FishingLogEntry.objects.all()
+    
 
 class FishList(generics.ListAPIView):
     # authentication_classes = [FirebaseBackend,]
