@@ -3,6 +3,7 @@ from firebase_auth.authentication import FirebaseBackend
 from trout.models import FishingLogEntry
 from troutApi.serializers import CatchDataSerializer, NewFishSerializer, SuperBasicSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from users.serializers import UserSerializer
 # from firebase_admin import auth
 # from django.contrib.auth import get_user_model
 
@@ -24,10 +25,16 @@ class FishList(generics.ListAPIView):
     authentication_classes = []
     permission_classes = []
     serializer_class = NewFishSerializer
-    lookup_field = "user"
+    # lookup_field = "user"
     
     def get_queryset(self):
-        return FishingLogEntry.objects.filter(user=self.request.user)
+        user = self.request.user
+        # if user.is_anonymous:
+        #     return FishingLogEntry.objects.all()
+        return FishingLogEntry.objects.filter(user=user.email)
+    
+    # def get_queryset(self):
+    #     return FishingLogEntry.objects.filter(user=self.request.user)
 
 class CreateLogEntry(generics.CreateAPIView):
     # authentication_classes = [FirebaseBackend]

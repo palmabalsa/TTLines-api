@@ -36,13 +36,12 @@ class FirebaseError(exceptions.APIException):
 
 
 class FirebaseBackend(BaseAuthentication):
-    def authenticate(self, request):
+    def authenticate(self, request, firebase_user_id=None, email=None, password=None, **kwargs):
         auth_header = request.META.get('HTTP_AUTHORIZATION')
         #  auth_header = request.META.get('HTTP_AUTHORIZATION')
 
         if not auth_header:
              raise NoAuthToken("No auth token provided")
-
         id_token = auth_header.split(' ').pop()
         try:
             decoded_token = auth.verify_id_token(id_token)
@@ -50,14 +49,16 @@ class FirebaseBackend(BaseAuthentication):
             raise InvalidAuthToken("Invalid auth token")
 
         try:
-            uid = decoded_token('uid')
+            uid = decoded_token.get("uid")
         except Exception:
              return FirebaseError()
 
         # get user model
+    
         User = get_user_model()
+        
         try:
-            user, created = User.objects.get_or_create(username=uid)
+            user = User.objects.get_or_create(firebase_user_id=uid)
             pass
         except Exception as e:
             print('this is problem', e)
