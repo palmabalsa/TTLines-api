@@ -110,8 +110,10 @@ DATABASES = {
          'PORT' : '5432',
      }    
 }
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+DB_URL = config('DATABASE_URL')
 
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+DATABASES['default'] = dj_database_url.parse(DB_URL, conn_max_age=600, ssl_require=True)
 
 
 AUTH_USER_MODEL = 'users.User'
