@@ -11,7 +11,7 @@ class CatchDataSerializer(serializers.ModelSerializer):
      
 
 class NewFishSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.email')
+    user = serializers.ReadOnlyField(source='User.firebase_user_id')
     class Meta:
         model = FishingLogEntry
         fields = ('user', 'id', 'date', 'river', 'river_pool', 'fish_species', 'fish_condition', 'fish_weight',

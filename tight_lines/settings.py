@@ -127,9 +127,6 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = 'firebase_user_id'
 
 
 
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 

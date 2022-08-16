@@ -4,8 +4,11 @@ from trout.models import FishingLogEntry
 from troutApi.serializers import CatchDataSerializer, NewFishSerializer, SuperBasicSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from users.serializers import UserSerializer
+
 # from firebase_admin import auth
-# from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # test endpoint displaying all data without loggin in
 
@@ -27,11 +30,9 @@ class FishList(generics.ListAPIView):
     serializer_class = NewFishSerializer
     # lookup_field = "user"
     
-    def get_queryset(self):
+    def get_queryset(self): 
         user = self.request.user
-        # if user.is_anonymous:
-        #     return FishingLogEntry.objects.all()
-        return FishingLogEntry.objects.filter(user=user.email)
+        return FishingLogEntry.objects.filter(user=user)
     
     # def get_queryset(self):
     #     return FishingLogEntry.objects.filter(user=self.request.user)

@@ -22,7 +22,7 @@ class FishingLogEntry (models.Model):
         ('Lake O', 'Lake O'),
     )
         #  to_field='firebase_user_id'
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, to_field='firebase_user_id', default='noFirebaseUserID', on_delete=models.CASCADE)
     date = models.DateTimeField(default=timezone.now)
     river = models.CharField(choices = riverName, max_length=14, default=None, blank=True, null=True,)
     river_pool = models.CharField(verbose_name= 'what pool?', max_length=20)
