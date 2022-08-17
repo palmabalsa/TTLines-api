@@ -20,6 +20,16 @@ class TrialEndPointFishList(generics.ListAPIView):
     serializer_class = NewFishSerializer
     queryset = FishingLogEntry.objects.all()
     
+class TrialEditOrDeleteUser(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = ()
+    queryset = FishingLogEntry.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = "id"
+    
+    def get_queryset(self):
+        djangoUser = self.request.user
+        return User.objects.filter(firbase_user_id=djangoUser)    
+    
 class ListUsers(generics.ListAPIView):
     permission_classes = () 
     authentication_classes = []
@@ -63,12 +73,13 @@ class CreateLogEntry(generics.CreateAPIView):
 
 class EditOrDeleteLogEntry(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = FishingLogEntry.objects.all()
+    # queryset = FishingLogEntry.objects.all()
     serializer_class = CatchDataSerializer
-    lookup_field = "id"
+    # lookup_field = "id"
     
     def get_queryset(self):
-        return FishingLogEntry.objects.filter(user=self.request.user)
+        djangoUser = self.request.user
+        return FishingLogEntry.objects.filter(user=djangoUser)
     
     
 
