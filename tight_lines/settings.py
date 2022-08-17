@@ -24,9 +24,22 @@ from firebase_admin import credentials
 
 # $env:GOOGLE_APPLICATION_CREDENTIALS="C:\Users\chess\dev\fishing_app\tight_lines\ttlines2-firebaseEnv.json" 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ttlines2-firebaseEnv.json"
-# cred = credentials.Certificate("ttlines2-firebaseEnv.json")
-default_app = firebase_admin.initialize_app()
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ttlines2-firebaseEnv.json"
+
+cred= credentials.Certificate({
+  "type": "service_account",
+  "project_id": config('FIREBASE_PROJECT_ID'),
+  "private_key_id": config('FIREBASE_PRIVATE_KEY_ID'),
+  "private_key": config('FIREBASE_PRIVATE_KEY').replace('\\n', '\n'),
+  "client_email": config('FIREBASE_CLIENT_EMAIL'),
+  "client_id": config('FIREBASE_CLIENT_ID'),
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": config('FIREBASE_CLIENT_X509_CERT_URL')
+})
+
+default_app = firebase_admin.initialize_app(cred)
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
