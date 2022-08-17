@@ -61,6 +61,7 @@ class FirebaseBackend(BaseAuthentication):
             print (decoded_token)
         except Exception:
             raise InvalidAuthToken("Invalid auth token")
+        
 
         try:
             uid = decoded_token['uid']

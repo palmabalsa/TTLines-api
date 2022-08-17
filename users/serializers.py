@@ -4,10 +4,12 @@ from users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-        log_entries = serializers.PrimaryKeyRelatedField(many=True, queryset=FishingLogEntry.objects.all())
+        # log_entries = serializers.PrimaryKeyRelatedField(many=True, queryset=FishingLogEntry.objects.all())
         class Meta:
                 model = User
-                fields = ['email', 'firebase_user_id', 'log_entries']
+                fields = '__all__'
+                # fields = ['email', 'firebase_user_id']
+                # 'log_entries'
         
         
         
