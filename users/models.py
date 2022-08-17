@@ -44,17 +44,18 @@ class CustomUserManager(BaseUserManager):
     
     use_in_migrations: True
     
-    def create_user(self, email, firebase_user_id, password=None, **extra_fields): 
+    # def create_user(self, firebase_user_id, email=None, password=None, **extra_fields): 
+    def create_user(self, firebase_user_id, **extra_fields): 
         # if not username: 
         #     raise ValueError(_('Username required'))   
         # if not email: 
         #     raise ValueError(_('Email required'))
-        email = self.normalize_email(email)
+        # email = self.normalize_email(email)
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
         # username = self.model.normalize_username(username)
-        user = self.model(email=email, firebase_user_id=firebase_user_id, **extra_fields)
-        user.set_password(password)
+        user = self.model(firebase_user_id, **extra_fields)
+        # user.set_password(password)
         user.save(using=self._db)
         return user
         
@@ -77,11 +78,11 @@ class CustomUserManager(BaseUserManager):
     
     
 class User(AbstractUser, PermissionsMixin):
-    firebase_user_id = models.CharField(primary_key=True, max_length=300, null=False, blank=False)
-    email= models.EmailField(_('email address'), blank=False, unique=True)
+    firebase_user_id = models.CharField(primary_key=True, max_length=300, null=False, blank=False, unique=True)
+    # email= models.EmailField(_('email address'), blank=False, unique=True)
 
-    EMAIL_FIELD: 'email'
-    USERNAME_FIELD: 'firebase_user_id'
+    # EMAIL_FIELD: 'email'
+    # USERNAME_FIELD: 'firebase_user_id'
     # REQUIRED_FIELDS: 'firebase_user_id']
     
     # def __str__(self):

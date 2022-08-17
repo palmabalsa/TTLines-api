@@ -115,7 +115,6 @@ DB_URL = config('DATABASE_URL')
 
 DATABASES['default'] = dj_database_url.parse(DB_URL, conn_max_age=600, ssl_require=True)
 
-
 AUTH_USER_MODEL = 'users.User'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'firebase_user_id'
 # ACCOUNT_FORMS = {'signup': 'users.forms.CustomUserCreationForm'}
@@ -189,7 +188,7 @@ REST_FRAMEWORK = {
         'firebase_auth.authentication.FirebaseBackend',
         # 'users.backends.JWTAuthentication',
         # "rest_framework.authentication.TokenAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
+        # "rest_framework.authentication.SessionAuthentication",
         
         
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',

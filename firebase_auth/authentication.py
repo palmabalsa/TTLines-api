@@ -8,7 +8,7 @@ from users.models import User
 from django.contrib.auth import get_user_model
 
 
-User = get_user_model()
+# User = get_user_model()
 
 
 class NoAuthToken(exceptions.APIException):
@@ -36,33 +36,45 @@ class FirebaseError(exceptions.APIException):
 
 
 class FirebaseBackend(BaseAuthentication):
-    def authenticate(self, request, firebase_user_id=None, email=None, password=None, **kwargs):
-        auth_header = request.META.get('HTTP_AUTHORIZATION')
-        #  auth_header = request.META.get('HTTP_AUTHORIZATION')
+    # def authenticate(self, request, firebase_user_id=None, email=None, password=None, **kwargs):
+    def authenticate(self, request):
+        
+        all_info = request.headers
+        print(all_info)
+        
+        # recieve auth header 
+        auth_header = request.headers.get('Authorization')
+        # auth_header = request.META.get('HTTP_AUTHORIZATION')
+
+        print ('auth_header = ')
+        print(auth_header)
 
         if not auth_header:
              raise NoAuthToken("No auth token provided")
+         
         id_token = auth_header.split(' ').pop()
+        print ('id_token = ')
+        print (id_token)
         try:
             decoded_token = auth.verify_id_token(id_token)
+            print ('decoded_token = ')
+            print (decoded_token)
         except Exception:
             raise InvalidAuthToken("Invalid auth token")
 
         try:
-            uid = decoded_token.get("uid")
+            uid = decoded_token['uid']
+            print ('uid = ')
+            print (uid)
         except Exception:
              return FirebaseError()
 
-        # get user model
-    
         User = get_user_model()
-        
-        try:
-            user = User.objects.get_or_create(firebase_user_id=uid)
-            pass
-        except Exception as e:
-            print('this is problem', e)
-            return None
+        fbuserusername = decoded_token['email']
+        fbuseremail = decoded_token['email']
+      
+        user, created = User.objects.get_or_create(firebase_user_id=uid, username=fbuserusername, email=fbuseremail)
+
         return (user, None)
 
 
