@@ -37,12 +37,9 @@ class ListUsers(generics.ListAPIView):
     
 
 class FishList(generics.ListAPIView):
-    # authentication_classes = []
-    # permission_classes = []
     authentication_classes = [FirebaseBackend]
     permission_classes = [IsAuthenticated,]
     serializer_class = NewFishSerializer
-    # lookup_field = "user"
     
     def get_queryset(self): 
         djangoUser = self.request.user
@@ -51,16 +48,11 @@ class FishList(generics.ListAPIView):
 
 
 class CreateLogEntry(generics.CreateAPIView):
-    # authentication_classes = [FirebaseBackend]
-    # permission_classes = [IsAuthenticated,]
     authentication_classes = [FirebaseBackend]
     permission_classes = [IsAuthenticated, ]
-    # queryset = FishingLogEntry.objects.all()
     serializer_class = NewFishSerializer
     
-    
     def perform_create(self, serializer):
-        # getFBUser = auth.get_user(=uid)
         djangoUser = self.request.user
         return serializer.save(user=djangoUser)
 
@@ -68,15 +60,23 @@ class CreateLogEntry(generics.CreateAPIView):
 
 
 class EditOrDeleteLogEntry(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticated,)
-    # queryset = FishingLogEntry.objects.all()
+    authentication_classes = [FirebaseBackend]
+    permission_classes = [IsAuthenticated, ]
     serializer_class = CatchDataSerializer
-    # lookup_field = "id"
+    lookup_field = "id"
     
-    def get_queryset(self):
+    def get_queryset(self): 
         djangoUser = self.request.user
         return FishingLogEntry.objects.filter(user=djangoUser)
     
+    def perform_destroy(self, instance):
+        instance = self.get_object()
+        return super().perform_destroy(instance)
+    
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        # djangoUser = self.request.user
+        return super().perform_update(serializer)
     
 
     # updates catch using PUT http method, change it to patch
