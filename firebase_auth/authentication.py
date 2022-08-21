@@ -7,10 +7,6 @@ from firebase_admin import auth
 from users.models import User
 from django.contrib.auth import get_user_model
 
-
-# User = get_user_model()
-
-
 class NoAuthToken(exceptions.APIException):
     status_code = status.HTTP_401_UNAUTHORIZED
     default_detail = "No authentication token provided"
@@ -36,7 +32,6 @@ class FirebaseError(exceptions.APIException):
 
 
 class FirebaseBackend(BaseAuthentication):
-    # def authenticate(self, request, firebase_user_id=None, email=None, password=None, **kwargs):
     def authenticate(self, request):
         
         all_info = request.headers
@@ -44,7 +39,6 @@ class FirebaseBackend(BaseAuthentication):
         
         # recieve auth header 
         auth_header = request.headers.get('Authorization')
-        # auth_header = request.META.get('HTTP_AUTHORIZATION')
 
         print ('auth_header = ')
         print(auth_header)
@@ -62,7 +56,6 @@ class FirebaseBackend(BaseAuthentication):
         except Exception:
             raise InvalidAuthToken("Invalid auth token")
         
-
         try:
             uid = decoded_token['uid']
             print ('uid = ')
@@ -77,163 +70,58 @@ class FirebaseBackend(BaseAuthentication):
         user, created = User.objects.get_or_create(firebase_user_id=uid, username=fbuserusername, email=fbuseremail)
 
         return (user, None)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# class FirebaseBackend (BaseAuthentication):
-#     def authenticate(self, request):
-        
-#         auth_header = request.headers.get('Authorization')
-#         # auth_header = request.META.get('Authorization')
-#         user = auth.get_user(uid)
-#         print('Successfully fetched user data: {0}'.format(user.uid))
-        
-#         if not auth_header:
-#             raise NoAuthToken("No auth token provided")
-
-#         id_token = auth_header.split(" ").pop()
-#         decoded_token = None
-        
-#         try:
-#             decoded_token = auth.verify_id_token(id_token)
-#         except Exception:
-#             raise InvalidAuthToken("Invalid auth token")
-        
-#         if not id_token or not decoded_token:
-#             return None
-        
-#         try:
-#             # get unique user ID
-#             uid = decoded_token("uid")
-#             # uid = decoded_token.get("uid")
-#         except Exception:
-#             return FirebaseError()
-        
-#         # user, created = User.objects.get_or_create(firebase_user_id=uid)
-#         try: 
-#             user = User.objects.get(firebase_user_id=uid)
-#             # user = User.objects.get_or_create(firebase_user_id=uid)
-#         except User.DoesNotExist:
-#             raise exceptions.AuthenticationFailed('No such user')
-        
-#         return (user, None)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# class FirebaseBackend (BaseAuthentication):
-#     def authenticate(self, request):
-        
-#         auth_token = request.headers.get('Authorization')
-#         if not auth_token:
-#             return None
-
-#         try:
-#             decoded_token = auth.verify_id_token(auth_token)
-#             uid = decoded_token["uid"]
-#         except:
-#             return None
-            
-#         try:
-#             user = User.objects.get(username=uid)
-#             return (user, None)
-#         except:
-#             return None
-
-
-# class FirebaseBackend (BaseAuthentication):
-#     def authenticate(self, request):
-#         auth_token = request.META.get("HTTP_AUTHORIZATION")
-        
-#         if not auth_token:
-#             return None
-#             # raise exceptions.AuthenticationFailed('Credentials not provided')
-#         id_token = auth_token.split(" ").pop()
-#         if not id_token:
-#             return None
-#             # raise exceptions.AuthenticationFailed('Credentials not provided')
-
-#         try:
-#             decoded_token = auth.verify_id_token(id_token)
-#         except Exception:
-#             raise exceptions.AuthenticationFailed('Invalid Token')
-#         try:
-#             firebase_user_id= decoded_token['user_id']
-#         except KeyError:
-#             raise exceptions.AuthenticationFailed("No such User exists")
-        
-#         try:
-#             user = User.objects.get(firebase_user_id=firebase_user_id)
-#             return user, None
-#         except User.DoesNotExist:
-#             return None
     
+    
+    
+#     class AuthenticatedView(APIView):
+#     permission_classes = [IsAuthenticated, ]
+
+#     def get(self, request):
+#         return Response({'message': 'You Are Authenticated', 'user': request.user.username})
+
+
+# class RegisterUser(APIView):
+#     permission_classes = [IsAuthenticated, ]
+
+#     def post(self, request):
+#         User = get_user_model()
+#         user = User.objects.get(username=request.user.username)
+#         firebase_data = auth.get_user(user.username)
+#         user.email = firebase_data.email
+#         user.save()
+#         return Response({'message': 'User Registered'})
+
+
+#                 firebase_user_id = decoded_token['uid']
+#             except KeyError:
+#                 raise APIException(
+#                     detail='No such User',
+#                     code=status.HTTP_400_BAD_REQUEST
+#                 )
+#             try:
+#                 user = User.objects.get(firebase_user_id=firebase_user_id)
+#                 content = {
+#                     "username" :user.email,
+#                     "email" : user.email,
+#                     "firebase_user_id" : user.firebase_user_id
+#                 }
+#                 return Response(content, status=status.HTTP_200_OK)
+#             except User.DoesNotExist:
+#                 user = auth.get_user(firebase_user_id)
+                
+#                 try:
+#                     new_user = User.objects.create(
+#                         email= user.email,
+#                         firebase_user_id= firebase_user_id,
+#                     )
+#                     content = {
+#                         "email":new_user.email,
+#                         "firebase_user_id": new_user.firebase_user_id
+#                     }
+#                     return Response(content, status=status.HTTP_201_CREATED)
+#                 except IntegrityError:
+#                     raise APIException(
+#                         detail='User already exists',
+#                         code=status.HTTP_400_BAD_REQUEST
+#                     )
+                    

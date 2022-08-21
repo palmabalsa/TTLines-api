@@ -22,5 +22,4 @@ urlpatterns = [
     path('api/', include('troutApi.urls', namespace= 'troutApi')),
     path('api-auth/', include('rest_framework.urls',namespace ='rest_framwork')),
     path('api/users/', include('users.urls', namespace='users'))
-    # path('api/fbauth/', include('firebase_auth.urls', namespace='firebase_auth')),
 ]

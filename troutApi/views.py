@@ -5,13 +5,9 @@ from trout.models import FishingLogEntry
 from troutApi.serializers import CatchDataSerializer, NewFishSerializer, SuperBasicSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from users.serializers import UserSerializer
-
-# from firebase_admin import auth
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
-
-# test endpoint displaying all data without loggin in
 
 class TrialEndPointFishList(generics.ListAPIView):
     authentication_classes = []
@@ -84,8 +80,6 @@ class EditOrDeleteLogEntry(generics.RetrieveUpdateDestroyAPIView):
     
 
     # updates catch using PUT http method, change it to patch
-    
-    
 
 
     

@@ -23,7 +23,6 @@ from firebase_admin import credentials
 
 
 # $env:GOOGLE_APPLICATION_CREDENTIALS="C:\Users\chess\dev\fishing_app\tight_lines\ttlines2-firebaseEnv.json" 
-
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ttlines2-firebaseEnv.json"
 
 cred= credentials.Certificate({
@@ -199,12 +198,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES' : (
         'firebase_auth.authentication.FirebaseBackend',
-        # 'users.backends.JWTAuthentication',
-        # "rest_framework.authentication.TokenAuthentication",
         # "rest_framework.authentication.SessionAuthentication",
-        
-        
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
      
 }
