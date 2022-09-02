@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'users',
     'django_extensions',
     'firebase_auth',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [

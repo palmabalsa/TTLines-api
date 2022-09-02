@@ -22,6 +22,7 @@ dj-database-url = "*"
 psycopg2 = "*"
 firebase-admin = "*"
 markdown = "*"
+drf-yasg = "*"
 
 [dev-packages]
 
