@@ -33,8 +33,8 @@ class FishingLogEntry (models.Model):
     fish_length = models.DecimalField(decimal_places=2,max_digits=5, default=None, blank=True, null=True)
     fish_condition = models.CharField(choices=fishCondition, max_length=13, default=None, blank=True, null=True, )
     kept_or_released = models.BooleanField(verbose_name='Kept for dinner?', default=None, blank=True, null=True,)
-    fly_used = models.CharField(max_length=25)
-    any_notes = models.CharField(max_length=100)
+    fly_used = models.CharField(max_length=25,default=None, blank=True, null=True)
+    any_notes = models.CharField(max_length=100, default=None, blank=True, null=True)
 
     objects = models.Manager()
     
