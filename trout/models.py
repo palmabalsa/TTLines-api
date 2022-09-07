@@ -24,7 +24,7 @@ class FishingLogEntry (models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, to_field='firebase_user_id', default='noFirebaseUserID', on_delete=models.CASCADE)
     date = models.DateTimeField(default=timezone.now)
     river = models.CharField(choices = riverName, max_length=14, default=None, blank=True, null=True,)
-    river_pool = models.CharField(verbose_name= 'what pool?', max_length=20)
+    river_pool = models.CharField(verbose_name= 'what pool?', max_length=20, default=None, blank=True, null=True,)
     lat = models.DecimalField(verbose_name= 'lat', decimal_places= 16,max_digits=22, default=None, blank=True, null=True)
     lon =  models.DecimalField(verbose_name= 'lon', decimal_places= 16,max_digits=22, default=None, blank=True, null=True)
     river_level = models.DecimalField(decimal_places=2,max_digits=5, default=None, blank=True, null=True)
