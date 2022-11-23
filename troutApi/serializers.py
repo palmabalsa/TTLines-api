@@ -7,14 +7,14 @@ class CatchDataSerializer(serializers.ModelSerializer):
         fields = ('id', 'user','river','river_pool','lat', 'lon',
                   'river_level','air_pressure','fish_species','fish_weight',
                   'fish_length','fish_condition','kept_or_released',
-                  'fly_used','any_notes')
+                  'fly_used','any_notes', 'number_of_fish')
      
 class NewFishSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='User.firebase_user_id')
     class Meta:
         model = FishingLogEntry
         fields = ('user', 'id', 'date', 'river', 'river_pool', 'lat', 'lon', 'fish_species', 'fish_condition', 'fish_weight',
-                  'fly_used','any_notes' , 'kept_or_released')
+                  'fly_used','any_notes' , 'kept_or_released', 'number_of_fish')
     
 class SuperBasicSerializer(serializers.ModelSerializer):
     class Meta:

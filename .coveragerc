@@ -1,5 +1,5 @@
 [run]
-source=tight_lines/,conditions/,trout/,troutApi/,users/,
+source=tight_lines/,trout/,troutApi/,users/,firebase_auth/,
 omit=
     venv
     */migrations/*

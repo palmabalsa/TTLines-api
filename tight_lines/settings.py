@@ -14,16 +14,13 @@ from pathlib import Path
 from telnetlib import AUTHENTICATION
 from datetime import timedelta
 import os
-import dj_database_url
 from decouple import config
-import django_heroku
 from corsheaders.defaults import default_methods, default_headers
 import firebase_admin
 from firebase_admin import credentials
 
 
-# $env:GOOGLE_APPLICATION_CREDENTIALS="C:\Users\chess\dev\fishing_app\tight_lines\ttlines2-firebaseEnv.json" 
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ttlines2-firebaseEnv.json"
+
 
 cred= credentials.Certificate({
   "type": "service_account",
@@ -119,18 +116,14 @@ DATABASES = {
          'NAME' : config('DB_NAME'),
          'USER' : config('DB_USER'),
          'PASSWORD' : config('DB_PASS'),
-         'HOST' : '127.0.0.1',
+         'HOST' : config('DB_HOST'),
          'PORT' : '5432',
      }    
 }
-# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-DB_URL = config('DATABASE_URL')
-
-DATABASES['default'] = dj_database_url.parse(DB_URL, conn_max_age=600, ssl_require=True)
 
 AUTH_USER_MODEL = 'users.User'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'firebase_user_id'
-# ACCOUNT_FORMS = {'signup': 'users.forms.CustomUserCreationForm'}
+
 
 
 
@@ -200,12 +193,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES' : (
         'firebase_auth.authentication.FirebaseBackend',
         # "rest_framework.authentication.SessionAuthentication",
-    )
-     
+    ),
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "https://tight-lines-app.herokuapp.com",
     "http://127.0.0.1",
     "http://localhost",
     "http://localhost:55555",
@@ -216,12 +208,7 @@ CORS_ALLOW_METHODS = list(default_methods)
 CORS_ALLOW_HEADERS = list(default_headers)
 
 # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['0.0.0.0', '192.168.20.102', 'localhost', '127.0.0.1', 'tight-lines-app.herokuapp.com']
-
-
-django_heroku.settings(locals())
-
-
+ALLOWED_HOSTS = ['0.0.0.0', '192.168.20.102', 'localhost', '127.0.0.1',]
 
 
 
