@@ -208,7 +208,7 @@ CORS_ALLOW_METHODS = list(default_methods)
 CORS_ALLOW_HEADERS = list(default_headers)
 
 # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['0.0.0.0', '192.168.20.102', 'localhost', '127.0.0.1',]
+ALLOWED_HOSTS = ['0.0.0.0', '192.168.20.102', 'localhost', '127.0.0.1']
 
 
 
