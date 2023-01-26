@@ -1,5 +1,6 @@
 # pull official base image
 FROM python:3.10-slim-buster
+EXPOSE 8000
 
 # set work directory eg: /usr/src/app
 WORKDIR /app
@@ -18,7 +19,7 @@ RUN pip install --upgrade pip
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-# copy project
+# copy all project files from working dir(.)  into this currrent dir (.)
 COPY . .
 
-# CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
