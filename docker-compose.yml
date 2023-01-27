@@ -1,12 +1,28 @@
 services:
   api:
-    build: ./app
+    build: .
+    image: palmarosa/tight-lines:django_api_1
     command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./app/:/usr/src/app/
     ports:
       - 8000:8000
     env_file:
-     - ./.env
-  postgres:
-  
+      - .env
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=palmabalsa
+      - POSTGRES_PASSWORD=vanillaIce
+  database:
+    image: postgres:13
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/pgsql/data
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_NAME=postgrestightlines
+      - POSTGRES_USER=palmabalsa
+      - POSTGRES_PASSWORD=vanillaIce
+
+volumes:
+  db-data:
