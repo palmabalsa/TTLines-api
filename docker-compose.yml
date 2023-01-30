@@ -8,9 +8,9 @@ services:
     env_file:
       - .env
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=palmabalsa
-      - POSTGRES_PASSWORD=vanillaIce
+      - POSTGRES_DB=railway
+      - POSTGRES_USER=Postgres
+      - POSTGRES_PASSWORD=z7fJmknUIMS54vuC3Ecg
   database:
     image: postgres:13
     ports:
@@ -20,9 +20,9 @@ services:
     env_file:
       - .env
     environment:
-      - POSTGRES_NAME=postgrestightlines
-      - POSTGRES_USER=palmabalsa
-      - POSTGRES_PASSWORD=vanillaIce
+      - POSTGRES_NAME=railway
+      - POSTGRES_USER=Postgres
+      - POSTGRES_PASSWORD=z7fJmknUIMS54vuC3Ecg
 
 volumes:
   db-data:
