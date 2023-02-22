@@ -2,7 +2,7 @@ from rest_framework import generics
 from firebase_admin import auth
 from firebase_auth.authentication import FirebaseBackend
 from trout.models import FishingLogEntry
-from troutApi.serializers import CatchDataSerializer, NewFishSerializer, SuperBasicSerializer
+from troutApi.serializers import CatchDataSerializer, NewFishSerializer, SuperBasicSerializer, FishPhotoSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from users.serializers import UserSerializer
 from django.contrib.auth import get_user_model
@@ -82,5 +82,14 @@ class EditOrDeleteLogEntry(generics.RetrieveUpdateDestroyAPIView):
     # updates catch using PUT http method, change it to patch
 
 
-    
+class GetFishPhoto(generics.RetrieveAPIView):
+    authentication_classes = [FirebaseBackend]
+    permission_classes = [IsAuthenticated, ]
+    serializer_class = FishPhotoSerializer
+    lookup_field = "id"
+
+    def get_queryset(self):
+        djangoUser = self.request.user
+        return FishingLogEntry.objects.filter(user=djangoUser)
+
   

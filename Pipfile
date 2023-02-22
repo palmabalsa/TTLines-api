@@ -62,6 +62,7 @@ uritemplate = "*"
 urllib3 = "*"
 whitenoise = "*"
 drf-yasg = "*"
+pillow = "*"
 
 [dev-packages]
 
